@@ -6,7 +6,6 @@ DexVault provides an easy-to-use RESTful API for signing API requests and for sa
 
 Main Features:
 - Simple to install, backup and use
-- Security first
 - Supports all functionality of the official SDK
 - Fully signed API requests
 - Secure TLS build-in
@@ -19,6 +18,10 @@ To be supported soon:
 - High availability
 - Hardware Security Module support via Vault
 - Hashicorp Vault integration for high-scalability and high security
+
+## Warning
+
+This code has not yet been reviewed for security. Here is hoping that we get some funds for financing a review once the service is stable!
 
 ## Quickstart - less than 5 minutes!
 
