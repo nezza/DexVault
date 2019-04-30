@@ -1,5 +1,9 @@
 # API
 
+## Introduction
+
+The API returns fully signed, ready to broadcast transactions. The payload is always JSON encoded in a JWT claim "payload" - see the Python examples on how to encode it correctly.
+
 ## The endpoints
 
 ### POST
@@ -119,7 +123,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -144,7 +148,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -168,7 +172,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -191,7 +195,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -214,7 +218,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -238,7 +242,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -261,7 +265,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -297,7 +301,7 @@ type Transfer struct {
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -322,7 +326,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -348,7 +352,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -372,7 +376,7 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
 
@@ -395,6 +399,6 @@ Payload:
 Response:
 ```
 {
-	"Response": "HEX SIGNATURE"
+	"Response": "HEX TRANSACTION"
 }
 ```
