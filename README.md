@@ -26,21 +26,21 @@ ASCIINEMA:
 [![asciicast](https://asciinema.org/a/LHcgSV0GHMaiKT5FI0yMq1ZGz.png)](https://asciinema.org/a/LHcgSV0GHMaiKT5FI0yMq1ZGz)
 
 ```
-# Initialize dexvault
-dexvault -command init
+# Initialize DexVault
+DexVault -command init
 
 # Create a user
-dexvault -command create-user --name MainUser
+DexVault -command create-user -name MainUser
 # Make sure to copy the JWT
 
 # Give the user ALL permissions
-dexvault -command add-permission --name MainUser --permission PermissionAll
+DexVault -command add-permission -name MainUser -permission PermissionAll
 
 # Create a wallet
-dexvault -command create-wallet --wallet Mainwallet
+DexVault -command create-wallet -wallet Mainwallet
 
 # Start the server!
-dexvault -command serve
+DexVault -command serve
 ```
 
 Querying the server:
