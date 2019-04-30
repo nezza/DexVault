@@ -5,7 +5,8 @@
 ### POST
 
 - [/v1/address](###-/v1/address)
-- [/v1/wallet/ (GET)](###-/v1/wallet/-(GET))
+- [/v1/wallet/ (GET)](###-/v1/wallet/-GET)
+- [/v1/wallet/ (POST)](###-/v1/wallet/-POST)
 - [/v1/wallet/create](###-/v1/wallet/create)
 - [/v1/order/create](###-/v1/order/create)
 - [/v1/order/cancel](###-/v1/order/cancel)
