@@ -65,31 +65,6 @@ func (b *DexVaultAuth)GetJwtAuth() *jwtauth.JWTAuth {
 	return jwtauth.New("HS256", []byte(b.Secret), nil)
 }
 
-func loadCredentials() DexVaultDatastore {
-	w1 := Wallet{
-		Name: "Wallet1",
-		Seed: "all repeat brand describe fabric mountain cake tissue rival disease tiny poverty wagon rail click wisdom little maximum sweet hurry group artefact focus awkward",
-	}
-	ta1 := newAuthToken("Foo1", "secret")
-	ta2 := newAuthToken("Foo2", "secret2")
-	ta2.Permissions = []Permission{PermissionRead,}
-
-	datastore := DexVaultDatastore{
-		Wallets:     []Wallet{w1},
-		Users:       []*DexVaultAuth{&ta1, &ta2},
-	}
-
-	bin, err := json.Marshal(datastore)
-	if err != nil {
-		panic(err)
-	}
-
-	encryptFile("datastore.bin", bin, "TESTSECRET")
-	ioutil.WriteFile("datastore_clear.bin", bin, 0644)
-
-	return datastore
-}
-
 func readSecret() string {
 	reader := bufio.NewReader(os.Stdin)
 	text, _ := reader.ReadString('\n')
@@ -132,7 +107,6 @@ func (b *DexVaultDatastore)Save() {
 	}
 
 	encryptFile("datastore.bin", bin, b.Secret)
-	ioutil.WriteFile("datastore_clear.bin", bin, 0644)
 }
 
 
@@ -169,6 +143,8 @@ func commandServe() {
 		r.Use(Authenticator)
 
 		r.Post("/v1/address", getAddressHandler)
+		r.Get("/v1/wallet/", getWalletsHandler)
+		r.Post("/v1/wallet/", getWalletHandler)
 		r.Post("/v1/wallet/create", createWalletHandler)
 		r.Post("/v1/order/create", createOrderHandler)
 		r.Post("/v1/order/cancel", cancelOrderHandler)

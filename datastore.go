@@ -58,6 +58,9 @@ func (b *DexVaultDatastore) CreateWallet(wallet string) (*Wallet, error) {
 
 func (u *DexVaultAuth)HasPermission(p Permission) bool {
 	for _, per := range u.Permissions {
+		if per == PermissionAll {
+			return true
+		}
 		if per == p {
 			return true
 		}
@@ -65,15 +68,25 @@ func (u *DexVaultAuth)HasPermission(p Permission) bool {
 	return false
 }
 
+func (u *DexVaultAuth)HasSpecificPermission(p Permission) bool {
+	for _, per := range u.Permissions {
+		if per == p {
+			return true
+		}
+	}
+	return false
+}
+
+
 func (u *DexVaultAuth)AddPermission(p Permission) {
-	if(u.HasPermission(p)) {
+	if(u.HasSpecificPermission(p)) {
 		return
 	}
 	u.Permissions = append(u.Permissions, p)
 }
 
 func (u *DexVaultAuth)RevokePermission(p Permission) {
-	if(!u.HasPermission(p)) {
+	if(!u.HasSpecificPermission(p)) {
 		return
 	}
 	for i, per := range u.Permissions {

@@ -5,6 +5,7 @@
 ### POST
 
 - [/v1/address](###-/v1/address)
+- [/v1/wallet/ (GET)](###-/v1/wallet/-(GET))
 - [/v1/wallet/create](###-/v1/wallet/create)
 - [/v1/order/create](###-/v1/order/create)
 - [/v1/order/cancel](###-/v1/order/cancel)
@@ -18,6 +19,9 @@
 - [/v1/proposal/submit](###-/v1/proposal/submit)
 - [/v1/proposal/vote](###-/v1/proposal/vote)
 - [/v1/deposit/](###-/v1/deposit/)
+
+
+{"Wallets":[{"Name":"foo","Address":"tbnb14fmlv298clw576dty86le7mjz3p39csz9rague"},{"Name":"Testwallet","Address":"tbnb1hefaz0kh2hmfs2pr3unt3qhc0cus6qjjx0pl2r"},{"Name":"Testwallet22","Address":"tbnb14xwrw50jtfugfn8ddx32r4w07nu938dfftum40"}]}
 
 
 ### /v1/address
@@ -37,6 +41,46 @@ Response:
 	"Response": "tbnb1mrk0c5q485px083l2vakjhq8pfur8pzh2n8hce"
 }
 ```
+
+### /v1/wallet/ (GET)
+
+Method: `GET`
+
+Response:
+```
+{"Wallets": [
+		{
+			"Name":"foo",
+			"Address":"tbnb14fmlv298clw576dty86le7mjz3p39csz9rague"
+		},
+		{
+			"Name":"Testwallet",
+			"Address":"tbnb1hefaz0kh2hmfs2pr3unt3qhc0cus6qjjx0pl2r"
+		}
+	]
+}
+
+```
+
+### /v1/wallet/ (POST)
+
+Method: `POST`
+
+Payload:
+```
+{
+	"Wallet": "walletname"
+}
+```
+
+Response:
+```
+{
+	"Name":"foo",
+	"Address":"tbnb14fmlv298clw576dty86le7mjz3p39csz9rague"
+},
+```
+
 
 ### /v1/wallet/create
 

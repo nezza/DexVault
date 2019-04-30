@@ -18,6 +18,15 @@ type Response struct {
 	Response string
 }
 
+type WalletResponse struct {
+	Name string
+	Address string
+}
+
+type WalletsResponse struct {
+	Wallets []WalletResponse
+}
+
 type ErrResponse struct {
 	Err            error `json:"-"` // low-level runtime error
 	HTTPStatusCode int   `json:"-"` // http response status code
@@ -53,9 +62,14 @@ func ErrInvalidRequest(err error) render.Renderer {
 // Utility functions
 
 func WriteResponse(w http.ResponseWriter, r *http.Request, result string) {
-	j, err := json.Marshal(Response {Response: result})
+	WriteJSONResponse(w, r, Response {Response: result})
+}
+
+func WriteJSONResponse(w http.ResponseWriter, r *http.Request, result interface{}) {
+	j, err := json.Marshal(result)
 	if err != nil {
 		render.Render(w, r, ErrInvalidRequest(err))
+		return
 	}
 	w.Write(j)
 }
@@ -160,24 +174,10 @@ func createWalletHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	u := datastore.GetUser(user)
 
-
-	// TODO outsource to function
-	var allowed = false
-	for _, p := range u.Permissions {
-		if p == PermissionAll {
-			allowed = true
-			break
-		}
-		if p == PermissionCreateWallet {
-			allowed = true
-			break
-		}
-	}
-	if !allowed {
+	if !u.HasPermission(PermissionCreateWallet) {
 		render.Render(w, r, ErrPermissionDenied())
 		return
 	}
-	
 
 	wallet, err := datastore.CreateWallet(data.Wallet)
 	if err != nil {
@@ -205,6 +205,59 @@ func getAddressHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	WriteResponse(w, r, keyManager.GetAddr().String())
+}
+
+func getWalletHandler(w http.ResponseWriter, r *http.Request) {
+	data := &Wallet{}
+	datastore, user, keyManager, err := decodeRequest(r, data, PermissionRead)
+	_ = datastore
+	_ = user
+	_ = keyManager
+	if err != nil {
+		render.Render(w, r, ErrInvalidRequest(err))
+		return
+	}
+
+	wa, err := data.GetAddress()
+	if err != nil {
+		render.Render(w, r, ErrInvalidRequest(err))
+		return
+	}
+
+	wr := WalletResponse {
+		Name: data.Name,
+		Address: *wa,
+	}
+
+	WriteJSONResponse(w, r, wr)
+}
+
+func getWalletsHandler(w http.ResponseWriter, r *http.Request) {
+	datastore := GetRequestDatastore(r)
+	user := GetRequestUser(r)
+	u := datastore.GetUser(user)
+	if !u.HasPermission(PermissionRead) {
+		render.Render(w, r, ErrPermissionDenied())
+		return
+	}
+
+	wrs := WalletsResponse{}
+	for _, wallet := range datastore.Wallets {
+		wa, err := wallet.GetAddress()
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+
+		wr := WalletResponse {
+			Name: wallet.Name,
+			Address: *wa,
+		}
+
+		wrs.Wallets = append(wrs.Wallets, wr)
+	}
+
+	WriteJSONResponse(w, r, wrs)
 }
 
 // These handlers are separate functions. This is done
