@@ -15,7 +15,7 @@
 
 ## Introduction
 
-DexVault provides an easy-to-use RESTful API for signing API requests and for safekeeping the wallet credentials.
+DexVault provides an easy-to-use RESTful API for signing DEX messages and for safekeeping the wallet credentials.
 
 Main Features:
 - Simple to install, backup and use
