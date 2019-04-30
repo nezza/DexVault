@@ -37,7 +37,7 @@ func createSignedCreateOrderMessage(keyManager keys.KeyManager, co *CreateOrder)
 
 	newOrderMessage := msg.NewCreateOrderMsg(
 		fromAddr,
-		msg.GenerateOrderID(co.Sequence, fromAddr),
+		msg.GenerateOrderID(co.Sequence + 1, fromAddr),
 		co.Op,
 		co.CombinedSymbol(),
 		co.Price,
