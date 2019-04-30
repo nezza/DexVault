@@ -40,4 +40,5 @@ headers = {
 
 r = requests.post(HOST + "/v1/order/create", headers=headers)
 
+print "Signed transaction:"
 print r.text

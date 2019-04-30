@@ -21,6 +21,10 @@ To be supported soon:
 
 ## Quickstart - less than 5 minutes!
 
+ASCIINEMA:
+
+[![asciicast](https://asciinema.org/a/LHcgSV0GHMaiKT5FI0yMq1ZGz.png)](https://asciinema.org/a/LHcgSV0GHMaiKT5FI0yMq1ZGz)
+
 ```
 # Initialize dexvault
 dexvault -command init
