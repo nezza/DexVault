@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/binance-chain/go-sdk/keys"
 	"errors"
 	"fmt"
+	"github.com/binance-chain/go-sdk/keys"
 )
 
 // JWT Authentication struct (User)
 type DexVaultAuth struct {
 	// jwtauth.JWTAuth
-	Name string
-	Secret string
+	Name        string
+	Secret      string
 	Permissions []Permission
 }
 
@@ -20,9 +20,9 @@ type Wallet struct {
 }
 
 type DexVaultDatastore struct {
-	Secret string `json:"-"`
-	Wallets     []Wallet
-	Users       []*DexVaultAuth
+	Secret  string `json:"-"`
+	Wallets []Wallet
+	Users   []*DexVaultAuth
 }
 
 func (b *DexVaultDatastore) CreateWallet(wallet string) (*Wallet, error) {
@@ -46,7 +46,7 @@ func (b *DexVaultDatastore) CreateWallet(wallet string) (*Wallet, error) {
 		return nil, err
 	}
 
-	w := Wallet {
+	w := Wallet{
 		Name: wallet,
 		Seed: mnemonic,
 	}
@@ -56,7 +56,7 @@ func (b *DexVaultDatastore) CreateWallet(wallet string) (*Wallet, error) {
 	return &w, nil
 }
 
-func (u *DexVaultAuth)HasPermission(p Permission) bool {
+func (u *DexVaultAuth) HasPermission(p Permission) bool {
 	for _, per := range u.Permissions {
 		if per == PermissionAll {
 			return true
@@ -68,7 +68,7 @@ func (u *DexVaultAuth)HasPermission(p Permission) bool {
 	return false
 }
 
-func (u *DexVaultAuth)HasSpecificPermission(p Permission) bool {
+func (u *DexVaultAuth) HasSpecificPermission(p Permission) bool {
 	for _, per := range u.Permissions {
 		if per == p {
 			return true
@@ -77,16 +77,15 @@ func (u *DexVaultAuth)HasSpecificPermission(p Permission) bool {
 	return false
 }
 
-
-func (u *DexVaultAuth)AddPermission(p Permission) {
-	if(u.HasSpecificPermission(p)) {
+func (u *DexVaultAuth) AddPermission(p Permission) {
+	if u.HasSpecificPermission(p) {
 		return
 	}
 	u.Permissions = append(u.Permissions, p)
 }
 
-func (u *DexVaultAuth)RevokePermission(p Permission) {
-	if(!u.HasSpecificPermission(p)) {
+func (u *DexVaultAuth) RevokePermission(p Permission) {
+	if !u.HasSpecificPermission(p) {
 		return
 	}
 	for i, per := range u.Permissions {
@@ -128,8 +127,6 @@ func (b *DexVaultDatastore) DeleteWallet(w string) error {
 	}
 	return errors.New("Wallet not found.")
 }
-
-
 
 func (b *DexVaultDatastore) GetUser(user string) *DexVaultAuth {
 	for _, u := range b.Users {

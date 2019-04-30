@@ -19,7 +19,7 @@ type Response struct {
 }
 
 type WalletResponse struct {
-	Name string
+	Name    string
 	Address string
 }
 
@@ -62,7 +62,7 @@ func ErrInvalidRequest(err error) render.Renderer {
 // Utility functions
 
 func WriteResponse(w http.ResponseWriter, r *http.Request, result string) {
-	WriteJSONResponse(w, r, Response {Response: result})
+	WriteJSONResponse(w, r, Response{Response: result})
 }
 
 func WriteJSONResponse(w http.ResponseWriter, r *http.Request, result interface{}) {
@@ -224,8 +224,8 @@ func getWalletHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	wr := WalletResponse {
-		Name: data.Name,
+	wr := WalletResponse{
+		Name:    data.Name,
 		Address: *wa,
 	}
 
@@ -249,8 +249,8 @@ func getWalletsHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		wr := WalletResponse {
-			Name: wallet.Name,
+		wr := WalletResponse{
+			Name:    wallet.Name,
 			Address: *wa,
 		}
 

@@ -4,8 +4,8 @@ package main
 
 import (
 	"fmt"
-	"syscall"
 	"golang.org/x/sys/unix"
+	"syscall"
 )
 
 func Mlock() {

@@ -4,22 +4,22 @@ import (
 	"github.com/binance-chain/go-sdk/keys"
 
 	// "context"
-	"encoding/json"
 	"encoding/hex"
+	"encoding/json"
 	// "errors"
 	"fmt"
 	// jwt "github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/jwtauth"
 	// "github.com/go-chi/render"
+	"bufio"
+	"crypto/rand"
+	"flag"
 	"github.com/go-yaml/yaml"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"os"
-	"bufio"
-	"flag"
-	"crypto/rand"
+	"strings"
 )
 
 func GetRequestConfig(r *http.Request) *DexVaultConfiguration {
@@ -49,27 +49,26 @@ type DexVaultConfiguration struct {
 	Whitelist   []string `yaml:"whitelist"`
 }
 
-
 func newAuthToken(name string, secret string) DexVaultAuth {
 	// tokenAuth := jwtauth.New("HS256", []byte(secret), nil)
 	tokenAuth2 := DexVaultAuth{
 		// JWTAuth: *tokenAuth,
-		Name:    name,
-		Secret: secret,
-		Permissions: []Permission{PermissionAll,},
+		Name:        name,
+		Secret:      secret,
+		Permissions: []Permission{PermissionAll},
 	}
 	return tokenAuth2
 }
 
-func (b *DexVaultAuth)GetJwtAuth() *jwtauth.JWTAuth {
+func (b *DexVaultAuth) GetJwtAuth() *jwtauth.JWTAuth {
 	return jwtauth.New("HS256", []byte(b.Secret), nil)
 }
 
 func readSecret() string {
 	reader := bufio.NewReader(os.Stdin)
 	text, _ := reader.ReadString('\n')
-    text = strings.Replace(text, "\n", "", -1)
-    return text
+	text = strings.Replace(text, "\n", "", -1)
+	return text
 }
 
 func unseal() DexVaultDatastore {
@@ -85,21 +84,21 @@ func unseal() DexVaultDatastore {
 	} else {
 		fmt.Println("Unsealing datastore using DEXVAULT_SECRET env var.")
 	}
-	
-    contents := decryptFile("datastore.bin", secret)
 
-    datastore := DexVaultDatastore{}
-    err := json.Unmarshal(contents, &datastore)
-    if err != nil {
-    	panic("Failed to load datastore!")
-    }
-    fmt.Println("Successfully unsealed.")
-    datastore.Secret = secret
+	contents := decryptFile("datastore.bin", secret)
 
-    return datastore
+	datastore := DexVaultDatastore{}
+	err := json.Unmarshal(contents, &datastore)
+	if err != nil {
+		panic("Failed to load datastore!")
+	}
+	fmt.Println("Successfully unsealed.")
+	datastore.Secret = secret
+
+	return datastore
 }
 
-func (b *DexVaultDatastore)Save() {
+func (b *DexVaultDatastore) Save() {
 	fmt.Println("Updating datastore.")
 	bin, err := json.Marshal(b)
 	if err != nil {
@@ -108,7 +107,6 @@ func (b *DexVaultDatastore)Save() {
 
 	encryptFile("datastore.bin", bin, b.Secret)
 }
-
 
 func commandServe() {
 	// Load configuration
@@ -122,7 +120,7 @@ func commandServe() {
 	if err != nil {
 		panic("Failed to decode configuration.")
 	}
-	
+
 	if cfg.ListenAddr == "" {
 		cfg.ListenAddr = ":1234"
 	}
@@ -190,7 +188,7 @@ func commandInit() {
 		datastore.Save()
 	} else {
 		fmt.Println("datastore.bin already exists. Cancelling init.")
-	}		
+	}
 }
 
 func existingUser(datastore *DexVaultDatastore, u string) *DexVaultAuth {
@@ -206,15 +204,12 @@ func existingUser(datastore *DexVaultDatastore, u string) *DexVaultAuth {
 	return user
 }
 
-
-
 func main() {
 	command := flag.String("command", "", "The command to run. Example: serve, init, create-user.")
 	name := flag.String("name", "", "Username to create/modify")
 	permission := flag.String("permission", "", "A permission to add/revoke")
 	wallet := flag.String("wallet", "", "Wallet to work on")
 	flag.Parse()
-
 
 	if *command == "" {
 		fmt.Println("Command required.")
@@ -247,9 +242,9 @@ func main() {
 		s := hex.EncodeToString(bytes)
 		fmt.Println("JWT Secret for user: " + s)
 
-		u := DexVaultAuth {
-			Name: *name,
-			Secret: s,
+		u := DexVaultAuth{
+			Name:        *name,
+			Secret:      s,
 			Permissions: []Permission{},
 		}
 		datastore.CreateUser(&u)
@@ -323,7 +318,7 @@ func main() {
 			fmt.Println("Wallet with name already exists.")
 			return
 		}
-		w := Wallet {
+		w := Wallet{
 			Name: *wallet,
 			Seed: mnemonic,
 		}
@@ -407,7 +402,7 @@ func main() {
 			fmt.Println("Wallet with name already exists.")
 			return
 		}
-		w := Wallet {
+		w := Wallet{
 			Name: *wallet,
 			Seed: seed,
 		}
