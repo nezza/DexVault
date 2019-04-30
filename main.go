@@ -98,6 +98,9 @@ func readSecret() string {
 }
 
 func unseal() DexVaultDatastore {
+	// Protect memory from swapping.
+	Mlock()
+
 	var secret = ""
 	secret = os.Getenv("DEXVAULT_SECRET")
 	if secret == "" {

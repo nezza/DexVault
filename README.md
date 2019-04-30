@@ -82,6 +82,10 @@ DexVault stores its wallet data using basic 256-bit AES GCM encryption. When Dex
 
 Please note that the data-at-rest protection only provides limited protection, the service needs to still be hosted on a secure machine.
 
+### Swap protection
+
+DexVault attempts to Mlock its memory-space to prevent swapping of secret in-memory data to disk. This is currently only supported on Linux.
+
 ### IP Whitelisting
 
 DexVault supports IP whitelisting, ensuring that only certain machines are able to access the API.
