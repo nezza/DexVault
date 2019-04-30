@@ -61,6 +61,8 @@ go get ./...
 go build
 ```
 
+## [API Documentation](API.md)
+
 ## Security
 
 ### TLS
@@ -204,3 +206,22 @@ tls_key: server.key
 ip_whitelist: true
 whitelist: ["192.168.1.100", "192.168.1.101"]
 ```
+
+## Permissions
+
+Available permissions:
+- PermissionAll - Implies ALL permissions
+- PermissionRead - Read data (such as wallet addresses, but no 'secret' data)
+- PermissionCreateWallet - Allows to create wallets
+- PermissionCreateOrder - Allows to create orders
+- PermissionCancelOrder - Allows to cancel orders
+- PermissionTokenBurn - Allows to burn tokens
+- PermissionDeposit - Allows to sign deposit messages
+- PermissionFreezeToken - Allows to sign freeze token messages
+- PermissionIssueToken - Allows to sign issue token messages
+- PermissionListPair - Allows to sign list pair message
+- PermissionMintTokens - Allows to sign mint token messages
+- PermissionSendToken  - Allows to sign send token messages
+- PermissionSubmitProposal - Allows to sign submit messages
+- PermissionUnfreezeToken - Allows to sign unfreeze token messages
+- PermissionVoteProposal - Allows to sign vote proposal messages
