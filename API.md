@@ -4,26 +4,22 @@
 
 ### POST
 
-- [/v1/address](###-/v1/address)
-- [/v1/wallet/ (GET)](###-/v1/wallet/-GET)
-- [/v1/wallet/ (POST)](###-/v1/wallet/-POST)
-- [/v1/wallet/create](###-/v1/wallet/create)
-- [/v1/order/create](###-/v1/order/create)
-- [/v1/order/cancel](###-/v1/order/cancel)
-- [/v1/token/burn](###-/v1/token/burn)
-- [/v1/token/freeze](###-/v1/token/freeze)
-- [/v1/token/unfreeze](###-/v1/token/unfreeze)
-- [/v1/token/issue](###-/v1/token/issue)
-- [/v1/token/mint](###-/v1/token/mint)
-- [/v1/token/send](###-/v1/token/send)
-- [/v1/listPair](###-/v1/listPair)
-- [/v1/proposal/submit](###-/v1/proposal/submit)
-- [/v1/proposal/vote](###-/v1/proposal/vote)
-- [/v1/deposit/](###-/v1/deposit/)
-
-
-{"Wallets":[{"Name":"foo","Address":"tbnb14fmlv298clw576dty86le7mjz3p39csz9rague"},{"Name":"Testwallet","Address":"tbnb1hefaz0kh2hmfs2pr3unt3qhc0cus6qjjx0pl2r"},{"Name":"Testwallet22","Address":"tbnb14xwrw50jtfugfn8ddx32r4w07nu938dfftum40"}]}
-
+- [/v1/address](#v1address)
+- [/v1/wallet/ (GET)](#v1wallet-GET)
+- [/v1/wallet/ (POST)](#v1wallet-POST)
+- [/v1/wallet/create](#v1walletcreate)
+- [/v1/order/create](#v1ordercreate)
+- [/v1/order/cancel](#v1ordercancel)
+- [/v1/token/burn](#v1tokenburn)
+- [/v1/token/freeze](#v1tokenfreeze)
+- [/v1/token/unfreeze](#v1tokenunfreeze)
+- [/v1/token/issue](#v1tokenissue)
+- [/v1/token/mint](#v1tokenmint)
+- [/v1/token/send](#v1tokensend)
+- [/v1/listPair](#v1listPair)
+- [/v1/proposal/submit](#v1proposalsubmit)
+- [/v1/proposal/vote](#v1proposalvote)
+- [/v1/deposit/](#v1deposit)
 
 ### /v1/address
 
