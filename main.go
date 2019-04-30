@@ -109,16 +109,16 @@ func (b *DexVaultDatastore) Save() {
 }
 
 func commandServe() {
+	var cfg DexVaultConfiguration
 	// Load configuration
 	cfg_data, err := ioutil.ReadFile("dexvault.conf")
 	if err != nil {
-		panic("Failed to read configuration data.")
-	}
-
-	var cfg DexVaultConfiguration
-	err = yaml.Unmarshal(cfg_data, &cfg)
-	if err != nil {
-		panic("Failed to decode configuration.")
+		fmt.Println("No configuration file found, using defaults.")
+	} else {
+		err = yaml.Unmarshal(cfg_data, &cfg)
+		if err != nil {
+			panic("Failed to decode configuration.")
+		}
 	}
 
 	if cfg.ListenAddr == "" {
