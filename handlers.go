@@ -9,7 +9,10 @@ import (
 
 	"encoding/json"
 	"errors"
+	sdk "github.com/binance-chain/go-sdk/client"
 	"github.com/binance-chain/go-sdk/keys"
+	"github.com/binance-chain/go-sdk/types"
+	"github.com/binance-chain/go-sdk/types/tx"
 )
 
 // Error responses
@@ -25,6 +28,33 @@ type WalletResponse struct {
 
 type WalletsResponse struct {
 	Wallets []WalletResponse
+}
+
+type BroadcastResult struct {
+	Ok   bool
+	Hash string
+	Data string
+}
+
+type BroadcastResponse struct {
+	Results []BroadcastResult
+}
+
+func BroadcastResultFromTxCommitResult(result tx.TxCommitResult) BroadcastResult {
+	return BroadcastResult{
+		Ok:   result.Ok,
+		Hash: result.Hash,
+		Data: result.Data,
+	}
+}
+
+func BroadcastResponseFromTxCommitResults(results []tx.TxCommitResult) BroadcastResponse {
+	var r BroadcastResponse
+	for _, res := range results {
+		br := BroadcastResultFromTxCommitResult(res)
+		r.Results = append(r.Results, br)
+	}
+	return r
 }
 
 type ErrResponse struct {
@@ -165,6 +195,24 @@ func decodeRequestBasic(r *http.Request, payload interface{}) (*DexVaultDatastor
 	return datastore, user, nil
 }
 
+func broadcastMessage(keyManager keys.KeyManager, host string, network int, tx []byte) (*BroadcastResponse, error) {
+	client, err := sdk.NewDexClient("testnet-dex.binance.org", types.ChainNetwork(network), keyManager)
+	if err != nil {
+		return nil, err
+	}
+
+	param := map[string]string{}
+	param["sync"] = "true"
+	commits, err := client.PostTx([]byte(tx), param)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := BroadcastResponseFromTxCommitResults(commits)
+	return &response, err
+}
+
 func createWalletHandler(w http.ResponseWriter, r *http.Request) {
 	data := &BasicMessage{}
 	datastore, user, err := decodeRequestBasic(r, data)
@@ -279,7 +327,17 @@ func createOrderHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func cancelOrderHandler(w http.ResponseWriter, r *http.Request) {
@@ -297,7 +355,16 @@ func cancelOrderHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func tokenBurnHandler(w http.ResponseWriter, r *http.Request) {
@@ -315,7 +382,16 @@ func tokenBurnHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func depositHandler(w http.ResponseWriter, r *http.Request) {
@@ -333,7 +409,16 @@ func depositHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func freezeTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -352,7 +437,16 @@ func freezeTokenHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func issueTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -371,7 +465,16 @@ func issueTokenHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func listPairHandler(w http.ResponseWriter, r *http.Request) {
@@ -390,7 +493,16 @@ func listPairHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func mintTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -409,7 +521,16 @@ func mintTokenHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func sendTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -428,7 +549,16 @@ func sendTokenHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func submitProposalHandler(w http.ResponseWriter, r *http.Request) {
@@ -447,7 +577,16 @@ func submitProposalHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func unfreezeTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -466,7 +605,16 @@ func unfreezeTokenHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }
 
 func voteProposalHandler(w http.ResponseWriter, r *http.Request) {
@@ -485,5 +633,14 @@ func voteProposalHandler(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	WriteResponse(w, r, string(hexTx))
+	if data.BroadcastHost != "" {
+		br, err := broadcastMessage(keyManager, data.BroadcastHost, data.BroadcastNetwork, hexTx)
+		if err != nil {
+			render.Render(w, r, ErrInvalidRequest(err))
+			return
+		}
+		WriteJSONResponse(w, r, br)
+	} else {
+		WriteResponse(w, r, string(hexTx))
+	}
 }

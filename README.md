@@ -147,70 +147,70 @@ Note: All functions except init require the unseal password. It can either be en
 
 Initialize datastore (required before first use):
 ```
-$ dexvault -command init
+$ DexVault -command init
 ```
 
 Start-server:
 ```
-$ dexvault -command serve
+$ DexVault -command serve
 ```
 
 ### User management
 Create user:
 ```
-$ dexvault -command create-user --name username
+$ DexVault -command create-user --name username
 ```
 
 List users:
 ```
-$ dexvault -command get-users
+$ DexVault -command get-users
 ```
 
 List single user:
 ```
-$ dexvault -command get-user --name username
+$ DexVault -command get-user --name username
 ```
 
 Delete user:
 ```
-$ dexvault -command delete-user --name username
+$ DexVault -command delete-user --name username
 ```
 
 Give permission to user (see PERMISSIONS):
 ```
-$ dexvault -command add-permission --name username --permission PermissionAll
+$ DexVault -command add-permission --name username --permission PermissionAll
 ```
 
 Revoke permission:
 ```
-$ dexvault -command revoke-permission --name username --permission PermissionAll
+$ DexVault -command revoke-permission --name username --permission PermissionAll
 ```
 
 ### Wallet management
 
 Create wallet with locally generated key:
 ```
-$ dexvault -command create-wallet --wallet Testwallet
+$ DexVault -command create-wallet --wallet Testwallet
 ```
 
 Get wallets:
 ```
-$ dexvault -command get-wallets
+$ DexVault -command get-wallets
 ```
 
 Export wallet (dangerous):
 ```
-$ dexvault -command export-wallet --wallet Testwallet
+$ DexVault -command export-wallet --wallet Testwallet
 ```
 
 Delete wallet (dangerous):
 ```
-$ dexvault -command delete-wallet --wallet Testwallet
+$ DexVault -command delete-wallet --wallet Testwallet
 ```
 
 Import wallet using mnemonic:
 ```
-$ dexvault -command import-wallet --wallet Testwallet
+$ DexVault -command import-wallet --wallet Testwallet
 ```
 
 ## Configuration

@@ -10,9 +10,11 @@ type BasicMessage struct {
 
 type SignedMessage struct {
 	BasicMessage
-	ChainId       string
-	AccountNumber int64
-	Sequence      int64
+	BroadcastHost    string
+	BroadcastNetwork int
+	ChainId          string
+	AccountNumber    int64
+	Sequence         int64
 }
 
 type CreateOrder struct {
