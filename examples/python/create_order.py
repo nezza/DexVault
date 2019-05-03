@@ -21,11 +21,13 @@ def enc(data):
 
 d = {
 	"Wallet": NAME,
+	"BroadcastHost": "testnet-dex.binance.org",
+	"BroadcastNetwork": 0,
 	"ChainId": "Binance-Chain-Nile",
 	"AccountNumber": 667929,
-	"Sequence": 13,
-	"BaseAssetSymbol": "BNB",
-	"QuoteAssetSymbol": "ANN-457",
+	"Sequence": 19,
+	"BaseAssetSymbol": "ANN-457",
+	"QuoteAssetSymbol": "BNB",
 	"Op": 1,
 	"Price": 100000000,
 	"Quantity": 100000000,
