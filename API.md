@@ -4,6 +4,10 @@
 
 The API returns fully signed, ready to broadcast transactions. The payload is always JSON encoded in a JWT claim "payload" - see the Python examples on how to encode it correctly.
 
+### Broadcasting
+
+All signing API endpoints also support optional broadcasting of the transaction. This is done by adding a `BroadcastHost` and a `BroadcastNetwork` to the request. The `create_order.py` Python example shows how this is used.
+
 ## The endpoints
 
 ### POST
