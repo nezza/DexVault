@@ -11,7 +11,7 @@ import (
 	"errors"
 	sdk "github.com/binance-chain/go-sdk/client"
 	"github.com/binance-chain/go-sdk/keys"
-	"github.com/binance-chain/go-sdk/types"
+	"github.com/binance-chain/go-sdk/common/types"
 	"github.com/binance-chain/go-sdk/types/tx"
 )
 

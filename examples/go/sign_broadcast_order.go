@@ -4,7 +4,7 @@ import (
 	"fmt"
 	sdk "github.com/binance-chain/go-sdk/client"
 	"github.com/binance-chain/go-sdk/keys"	
-	"github.com/binance-chain/go-sdk/types"
+	"github.com/binance-chain/go-sdk/common/types"
 	"github.com/binance-chain/go-sdk/types/tx"
 	jwt "github.com/dgrijalva/jwt-go"
     "net/http"

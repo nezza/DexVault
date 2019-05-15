@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/binance-chain/go-sdk/keys"
-	// "github.com/binance-chain/go-sdk/common"
-	"github.com/binance-chain/go-sdk/types"
+	"github.com/binance-chain/go-sdk/common/types"
+	types_old "github.com/binance-chain/go-sdk/types"
 	"github.com/binance-chain/go-sdk/types/msg"
 	"github.com/binance-chain/go-sdk/types/tx"
 	"time"
@@ -21,7 +21,7 @@ func signMessage(sm SignedMessage, memo string, m msg.Msg, keyManager keys.KeyMa
 		Sequence:      sm.Sequence,
 		Memo:          memo, // Only transfer supports memo
 		Msgs:          []msg.Msg{m},
-		Source:        types.GoSdkSource,
+		Source:        types_old.GoSdkSource,
 	}
 
 	hexTx, err := keyManager.Sign(signMsg)
@@ -71,7 +71,7 @@ func createSignedTokenBurnMsg(keyManager keys.KeyManager, tb *TokenBurn) ([]byte
 	return hexTx, err
 }
 func createSignedDepositMsg(keyManager keys.KeyManager, dp *DepositProposal) ([]byte, error) {
-	coins := types.Coins{types.Coin{Denom: types.NativeSymbol, Amount: dp.Amount}}
+	coins := types.Coins{types.Coin{Denom: types_old.NativeSymbol, Amount: dp.Amount}}
 	depositMsg := msg.NewDepositMsg(keyManager.GetAddr(), dp.ProposalID, coins)
 	hexTx, err := signMessage(dp.SignedMessage, "", depositMsg, keyManager)
 	return hexTx, err
@@ -128,7 +128,7 @@ func createSignedSendTokenMsg(keyManager keys.KeyManager, st *SendToken) ([]byte
 }
 
 func createSignedSubmitProposalMsg(keyManager keys.KeyManager, sp *SubmitProposal) ([]byte, error) {
-	coins := types.Coins{types.Coin{Denom: types.NativeSymbol, Amount: sp.InitialDeposit}}
+	coins := types.Coins{types.Coin{Denom: types_old.NativeSymbol, Amount: sp.InitialDeposit}}
 	proposalMsg := msg.NewMsgSubmitProposal(sp.Title, sp.Description, msg.ProposalKind(sp.ProposalType), keyManager.GetAddr(), coins, time.Duration(sp.VotingPeriod))
 	hexTx, err := signMessage(sp.SignedMessage, "", proposalMsg, keyManager)
 	return hexTx, err
